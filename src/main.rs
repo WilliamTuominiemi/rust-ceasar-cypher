@@ -11,7 +11,7 @@ fn main() {
     println!("Enter word to cypher: ");
     let mut input = String::new();
     match io::stdin().read_line(&mut input) {
-        Ok(_) => word = input.to_ascii_uppercase(),
+        Ok(_) => word = input.to_ascii_uppercase().split_whitespace().collect(),
         Err(error) => println!("error: {error}"),
     }
 
