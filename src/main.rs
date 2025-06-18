@@ -6,22 +6,43 @@ fn main() {
         'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
     ];
 
-    let mut word: String = String::new();
+    println!("Cypher or Decypher? Type 1 or 2, anything else to quit");
+    let mut method = String::new();
+    match io::stdin().read_line(&mut method) {
+        Ok(_) => {
+            let method = method.trim();
+            if method == "1" {
+                println!("Enter word to cypher: ");
+                let mut word: String = String::new();
 
-    println!("Enter word to cypher: ");
-    let mut input = String::new();
-    match io::stdin().read_line(&mut input) {
-        Ok(_) => word = input.to_ascii_uppercase().split_whitespace().collect(),
+                let mut input = String::new();
+                match io::stdin().read_line(&mut input) {
+                    Ok(_) => word = input.to_ascii_uppercase().split_whitespace().collect(),
+                    Err(error) => println!("error: {error}"),
+                }
+
+                let cyphered_word: String = cypher(alphabet, &word);
+
+                println!("{}", cyphered_word);
+            } else if method == "2" {
+                println!("Enter word to decypher: ");
+                let mut cyphered_word: String = String::new();
+
+                let mut input = String::new();
+                match io::stdin().read_line(&mut input) {
+                    Ok(_) => {
+                        cyphered_word = input.to_ascii_uppercase().split_whitespace().collect()
+                    }
+                    Err(error) => println!("error: {error}"),
+                }
+
+                let decyphered_word: String = decypher(alphabet, &cyphered_word);
+
+                println!("{}", decyphered_word);
+            }
+        }
         Err(error) => println!("error: {error}"),
     }
-
-    let cyphered_word: String = cypher(alphabet, &word);
-
-    println!("{}", cyphered_word);
-
-    let decyphered_word: String = decypher(alphabet, &cyphered_word);
-
-    println!("{}", decyphered_word);
 }
 
 fn cypher(alphabet: [char; 26], word: &str) -> String {
