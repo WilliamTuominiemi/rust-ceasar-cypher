@@ -1,14 +1,21 @@
+use std::io;
+
 fn main() {
     let alphabet: [char; 26] = [
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
         'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
     ];
 
-    let word: &'static str = "HELLO";
+    let mut word: String = String::new();
 
-    println!("{}", word);
+    println!("Enter word to cypher: ");
+    let mut input = String::new();
+    match io::stdin().read_line(&mut input) {
+        Ok(_) => word = input.to_ascii_uppercase(),
+        Err(error) => println!("error: {error}"),
+    }
 
-    let cyphered_word: String = cypher(alphabet, word);
+    let cyphered_word: String = cypher(alphabet, &word);
 
     println!("{}", cyphered_word);
 
@@ -17,7 +24,7 @@ fn main() {
     println!("{}", decyphered_word);
 }
 
-fn cypher(alphabet: [char; 26], word: &'static str) -> String {
+fn cypher(alphabet: [char; 26], word: &str) -> String {
     let mut word_indexes: Vec<usize> = Vec::new();
 
     for letter in word.chars() {
